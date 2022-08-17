@@ -33,14 +33,21 @@ app.post('/', function(req, res){
 
     let jsonData = JSON.stringify(data);
 
-    let url = '';
+    let url = 'https://us11.api.mailchimp.com/3.0/lists/0c8ee0d6d4';
 
     let options = {
         method: 'POST',
-        auth: '',
+        auth: 'piballtec:a2ce993ce8af7de86ee7f3ce50e44a29-us11',
     }
 
     let request = https.request(url, options, function(response){
+
+        if (response.statusCode === 200){
+            res.sendFile(__dirname + '/success.html');
+        } else {
+            res.sendFile(__dirname + '/failure.html');
+        }
+
         response.on('data', function(data){
             console.log(JSON.parse(data));
         })
@@ -51,9 +58,19 @@ app.post('/', function(req, res){
 
 });
 
+app.post('/failure', function(req, res){
+    res.redirect('/');
+});
+
+app.post('/success', function(req, res){
+    res.redirect('/');
+})
+
 app.listen(port, () => {
     console.log('Listening on port 8000');
 });
 
 
-// 
+// let list_id = '0c8ee0d6d4';
+// web_dev_20
+// let api_key = 'a2ce993ce8af7de86ee7f3ce50e44a29-us11';
